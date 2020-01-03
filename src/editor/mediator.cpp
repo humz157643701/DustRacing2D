@@ -451,8 +451,8 @@ void Mediator::updateCoordinates(QPointF mappedPos)
         row = row >= maxRows ? maxRows - 1 : row;
         row = row < 0 ? 0 : row;
 
-        m_editorData->setActiveRow(static_cast<unsigned int>(row));
-        m_editorData->setActiveColumn(static_cast<unsigned int>(column));
+        m_editorData->setActiveRow(static_cast<size_t>(row));
+        m_editorData->setActiveColumn(static_cast<size_t>(column));
 
         QString coordinates("X: %1 Y: %2 I: %3 J: %4");
         coordinates = coordinates.arg(mappedPos.x()).arg(mappedPos.y()).arg(column).arg(row);

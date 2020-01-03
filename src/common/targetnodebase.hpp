@@ -31,7 +31,7 @@ public:
     //! Constructor.
     TargetNodeBase();
 
-    TargetNodeBase(TargetNodeBase & other) = delete;
+    TargetNodeBase(const TargetNodeBase & other) = delete;
 
     TargetNodeBase(TargetNodeBase && other) = delete;
 
@@ -46,9 +46,9 @@ public:
     //! Set coordinates in the world.
     virtual void setLocation(QPointF newLocation);
 
-    virtual int index() const;
+    virtual size_t index() const;
 
-    virtual void setIndex(int index);
+    virtual void setIndex(size_t index);
 
     virtual void setNext(TargetNodeBasePtr nextNnode);
 
@@ -62,6 +62,10 @@ public:
 
     virtual QSizeF size() const;
 
+    virtual bool synthetic() const;
+
+    virtual void setSynthetic(bool synthetic);
+
 private:
     //! Coordinates in the world.
     QPointF m_location;
@@ -70,7 +74,9 @@ private:
     QSizeF m_size;
 
     //! Index in the route.
-    int m_index;
+    size_t m_index;
+
+    bool m_synthetic;
 
     TargetNodeBasePtr m_next;
 

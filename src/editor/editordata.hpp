@@ -117,13 +117,13 @@ public:
     //! Clear the current route only.
     void clearRoute();
 
-    void setActiveColumn(unsigned int column);
+    void setActiveColumn(size_t column);
 
-    unsigned int activeColumn() const;
+    size_t activeColumn() const;
 
-    void setActiveRow(unsigned int row);
+    void setActiveRow(size_t row);
 
-    unsigned int activeRow() const;
+    size_t activeRow() const;
 
     void setCurrentScale(int currentScale);
 
@@ -159,9 +159,9 @@ private:
 
     std::vector<QGraphicsLineItem *> m_targetNodes;
 
-    unsigned int m_activeColumn = 0;
+    size_t m_activeColumn = 0;
 
-    unsigned int m_activeRow = 0;
+    size_t m_activeRow = 0;
 
     // Scale percentage
     int m_currentScale = 50;

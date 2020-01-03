@@ -321,7 +321,7 @@ void Race::update()
     {
         auto && route = m_track->trackData().route();
         auto && targetNode = route.get(m_statusHash[getLeader().index()].currentTargetNodeIndex);
-        if (targetNode->index() >= static_cast<int>(9 * route.numNodes() / 10))
+        if (targetNode->index() >= 9 * route.numNodes() / 10)
         {
             if (!m_checkeredFlagEnabled)
             {

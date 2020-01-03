@@ -238,6 +238,7 @@ std::unique_ptr<TrackData> TrackLoader::loadTrack(QString path)
             }
 
             newData->route().buildFromVector(route);
+            newData->route().makeDense(TrackTile::width() / 8);
         }
     }
 
@@ -345,7 +346,7 @@ void TrackLoader::readTargetNode(QDomElement & element, TrackData & newData, std
     const int mapHeight = static_cast<int>(newData.map().rows() * TrackTile::height());
 
     auto targetNode = std::make_shared<TargetNodeBase>();
-    targetNode->setIndex(element.attribute(DataKeywords::Node::index, "0").toInt());
+    targetNode->setIndex(static_cast<size_t>(element.attribute(DataKeywords::Node::index, "0").toInt()));
 
     const int x = element.attribute(DataKeywords::Node::x, "0").toInt();
     const int y = element.attribute(DataKeywords::Node::y, "0").toInt();

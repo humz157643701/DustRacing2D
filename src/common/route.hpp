@@ -33,6 +33,8 @@ public:
 
     Route(const Route & other) = delete;
 
+    Route(Route && other) = delete;
+
     Route & operator=(const Route & other) = delete;
 
     typedef std::vector<TargetNodeBasePtr> RouteVector;
@@ -51,14 +53,19 @@ public:
     //! Return number of target nodes.
     size_t numNodes() const;
 
-    //! Return Target for the given index.
+    //! Return target node for the given index % route length.
     TargetNodeBasePtr get(size_t index) const;
+
+    //! Return first target node forward from the given index by given distance.
+    TargetNodeBasePtr get(size_t index, double distance) const;
 
     //! Get all nodes.
     void getAll(RouteVector & routeVector) const;
 
     //! Return length based on target node locations.
     double geometricLength() const;
+
+    void makeDense(double maxDistance);
 
     RouteVector::iterator begin();
 
@@ -69,7 +76,19 @@ public:
     RouteVector::const_iterator cend() const;
 
 private:
+    QPointF avgLocation(TargetNodeBasePtr node0, TargetNodeBasePtr node1) const;
+
+    QSizeF maxSize(TargetNodeBasePtr node0, TargetNodeBasePtr node1) const;
+
+    double distanceBetweenNodes(TargetNodeBasePtr node0, TargetNodeBasePtr node1) const;
+
+    size_t firstViolatingNode(RouteVector & routeVector, double maxDistance) const;
+
+    void insertNode(RouteVector & routeVector, size_t index);
+
     bool isClosed() const;
+
+    void relinkNodes(RouteVector & routeVector);
 
     std::vector<TargetNodeBasePtr> m_route;
 };

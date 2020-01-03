@@ -38,6 +38,13 @@ Car & AI::car() const
     return m_car;
 }
 
+size_t getLookahead(double speedInKmh)
+{
+    speedInKmh = speedInKmh < 0.0 ? 0.0 : speedInKmh;
+    const double maxLookahead = TrackTile::width();
+    return static_cast<size_t>(std::min(speedInKmh * maxLookahead / 300, maxLookahead));
+}
+
 void AI::update(bool isRaceCompleted)
 {
     if (m_track)
@@ -47,11 +54,8 @@ void AI::update(bool isRaceCompleted)
             setRandomTolerance();
         }
 
-        const Route & route = m_track->trackData().route();
-        steerControl(route.get(m_race->getCurrentTargetNodeIndex(m_car)));
-
+        steerControl(m_track->trackData().route().get(m_race->getCurrentTargetNodeIndex(m_car), getLookahead(m_car.speedInKmh())));
         speedControl(*m_track->trackTileAtLocation(m_car.location().i(), m_car.location().j()), isRaceCompleted);
-
         m_lastTargetNodeIndex = m_race->getCurrentTargetNodeIndex(m_car);
     }
 }
@@ -65,7 +69,14 @@ void AI::steerControl(TargetNodeBasePtr targetNode)
 {
     // Initial target coordinates
     MCVector3dF target(static_cast<float>(targetNode->location().x()), static_cast<float>(targetNode->location().y()));
-    target -= MCVector3dF(m_car.location() + MCVector3dF(m_randomTolerance));
+    if (targetNode->synthetic())
+    {
+        target -= m_car.location();
+    }
+    else
+    {
+        target -= m_car.location() + MCVector3dF(m_randomTolerance);
+    }
 
     const float angle = MCTrigonom::radToDeg(std::atan2(target.j(), target.i()));
     const float cur = static_cast<int>(m_car.angle()) % 360;

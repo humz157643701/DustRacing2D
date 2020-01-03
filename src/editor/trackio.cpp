@@ -80,7 +80,7 @@ void readTargetNode(std::vector<TargetNodeBasePtr> & route, const QDomElement & 
     // Create a new object. QGraphicsScene will take
     // the ownership eventually.
     const auto targetNode = std::make_shared<TargetNode>();
-    targetNode->setIndex(element.attribute(DataKeywords::Node::index, "0").toInt());
+    targetNode->setIndex(static_cast<size_t>(element.attribute(DataKeywords::Node::index, "0").toInt()));
 
     const int x = element.attribute(DataKeywords::Node::x, "0").toInt();
     const int y = element.attribute(DataKeywords::Node::y, "0").toInt();
@@ -154,7 +154,7 @@ void writeTargetNodes(TrackDataPtr trackData, QDomElement & root, QDomDocument &
     for (auto && targetNode : trackData->route())
     {
         auto && targetNodeElement = doc.createElement(DataKeywords::Track::node);
-        targetNodeElement.setAttribute(DataKeywords::Node::index, targetNode->index());
+        targetNodeElement.setAttribute(DataKeywords::Node::index, static_cast<int>(targetNode->index()));
         targetNodeElement.setAttribute(DataKeywords::Node::x, static_cast<int>(targetNode->location().x()));
         targetNodeElement.setAttribute(DataKeywords::Node::y, static_cast<int>(targetNode->location().y()));
         targetNodeElement.setAttribute(DataKeywords::Node::width, static_cast<int>(targetNode->size().width()));

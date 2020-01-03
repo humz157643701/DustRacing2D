@@ -18,7 +18,8 @@
 
 TargetNodeBase::TargetNodeBase()
   : m_size(QSize(static_cast<int>(TrackTileBase::height()), static_cast<int>(TrackTileBase::width())))
-  , m_index(-1)
+  , m_index(0)
+  , m_synthetic(false)
 {
 }
 
@@ -52,12 +53,12 @@ void TargetNodeBase::setLocation(QPointF newLocation)
     m_location = newLocation;
 }
 
-int TargetNodeBase::index() const
+size_t TargetNodeBase::index() const
 {
     return m_index;
 }
 
-void TargetNodeBase::setIndex(int index)
+void TargetNodeBase::setIndex(size_t index)
 {
     m_index = index;
 }
@@ -70,4 +71,14 @@ void TargetNodeBase::setSize(QSizeF size)
 QSizeF TargetNodeBase::size() const
 {
     return m_size;
+}
+
+bool TargetNodeBase::synthetic() const
+{
+    return m_synthetic;
+}
+
+void TargetNodeBase::setSynthetic(bool synthetic)
+{
+    m_synthetic = synthetic;
 }
