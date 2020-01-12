@@ -140,7 +140,7 @@ void AI::speedControl(TrackTile & currentTile, bool isRaceCompleted)
     {
         if (absSpeed > 14.0f * scale)
         {
-            brake = true;
+            //brake = true;
         }
     }
 
@@ -148,7 +148,7 @@ void AI::speedControl(TrackTile & currentTile, bool isRaceCompleted)
     {
         if (absSpeed > 9.5f * scale)
         {
-            brake = true;
+            //brake = true;
         }
     }
 
